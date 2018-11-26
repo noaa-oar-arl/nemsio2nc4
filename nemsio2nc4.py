@@ -51,18 +51,7 @@ def get_exec_path(exec_name, verbose=False):
 
     exec_path = find_executable(exec_name)
     if exec_path is None:
-#        msg = '%s is needed to run this utility, and is not in your path.\n' % exec_name
-#        msg += 'Using:\n'
-#        msg += '%s\n' % exec_path_def
-#        msg += 'If you wish to use another version, Enter full path or return to continue: \n'
-#        input_str = input(msg)
-#        if input_str in ['']:
         exec_path = exec_path_def
-        #else:
-        #    exec_path = input_str
-        #    if ( not os.path.exists(exec_path) ):
-        #        print( '%s does not exist, EXITING!' % exec_path)
-        #        sys.exit(2)
 
     if verbose:
         print( '%s: %s' % (exec_name, exec_path))
@@ -89,18 +78,11 @@ def change_file(finput,verbose=False):
     cmd = '%s -f nc4 import_binary %s.ctl %s.nc4' % (cdo, fname, fname)
     execute_subprocess(cmd, verbose=verbose)
 
-    #cmd = '%s setgatt,source,GSI %s.nctmp %s.nc4' % (cdo, fname, fname)                                                                                                                                                       
-    #execute_subprocess(cmd)                                                                                                                                                                                                   
-
-#    cmd = 'rm -f %s.ctl' % (fname)
-#    execute_subprocess(cmd, verbose=verbose)
-
-
 
 if __name__ == '__main__':
 
     parser = ArgumentParser(description='convert nemsio file to netCDF4 file', formatter_class=ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-n', '--nemsio', help='input nemsio file name', type=str, required=True)
+    parser.add_argument('-f', '--files', help='input nemsio file name', type=str, required=True)
     parser.add_argument('-v', '--verbose', help='print debugging information', action='store_true', required=False)
     args = parser.parse_args()
 
@@ -119,25 +101,4 @@ if __name__ == '__main__':
             finput = i
             print('FINPUT -> ',finput)
             change_file(finput,verbose=verbose)
-    
-    
-    # fname = finput.strip('.nemsio') if finput.endswith('.nemsio') else finput
-    
-    # fname = chdir(finput)
-
-    # mkgfsnemsioctl = get_exec_path('mkgfsnemsioctl', verbose=verbose)
-    # cdo = get_exec_path('cdo', verbose=verbose)
-
-    # cmd = '%s %s' % (mkgfsnemsioctl, fname)
-    # execute_subprocess(cmd, verbose=verbose)
-
-    # cmd = '%s -f nc4 import_binary %s.ctl %s.nc4' % (cdo, fname, fname)
-    # execute_subprocess(cmd, verbose=verbose)
-
-    # #cmd = '%s setgatt,source,GSI %s.nctmp %s.nc4' % (cdo, fname, fname)
-    # #execute_subprocess(cmd)
-
-    # cmd = 'rm -f %s.ctl' % (fname)
-    # execute_subprocess(cmd, verbose=verbose)
-
-    # sys.exit(0)
+   
