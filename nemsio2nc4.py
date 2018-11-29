@@ -86,7 +86,7 @@ if __name__ == '__main__':
     parser.add_argument('-v', '--verbose', help='print debugging information', action='store_true', required=False)
     args = parser.parse_args()
     print(args)
-    finput = args.nemsio
+    finput = args.files
     verbose = args.verbose
     
     files = sorted(glob(finput))
