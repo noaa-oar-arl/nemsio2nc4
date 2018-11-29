@@ -108,7 +108,7 @@ if __name__ == '__main__':
             if finput.endswith('.nemsio'):
                 realfiles.append(finput)
         if usedask:
-            dfs = [dask.delayed(change_file(verbose=verbose))(i) for i in realfiles]
+            dfs = [dask.delayed(change_file(i,verbose=verbose)) for i in realfiles]
             dask.compute(dfs)
         else:
             for finput in realfiles:
