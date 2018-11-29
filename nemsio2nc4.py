@@ -98,6 +98,9 @@ if __name__ == '__main__':
     else:
         for i in files:
             finput = i
-            print('Current Input:',finput)
-            change_file(finput,verbose=verbose)
+            if finput.endswith('.nemsio'):
+                print('Current Input:',finput)
+                change_file(finput,verbose=verbose)
+            else:   
+                pass
    
