@@ -85,7 +85,6 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--files', help='input nemsio file name', type=str, required=True)
     parser.add_argument('-v', '--verbose', help='print debugging information', action='store_true', required=False)
     args = parser.parse_args()
-    print(args)
     finput = args.files
     verbose = args.verbose
     
@@ -99,6 +98,6 @@ if __name__ == '__main__':
     else:
         for i in files:
             finput = i
-            print('FINPUT -> ',finput)
+            print('Current Input:',finput)
             change_file(finput,verbose=verbose)
    
