@@ -113,9 +113,10 @@ if __name__ == '__main__':
             if finput.endswith('.nemsio'):
                 realfiles.append(finput)
         if usedask:
+            dask_change_file = dask.delayed(change_file)
             client = Client(threads_per_worker=1, n_workers=nprocs)
-            dfs = [dask.delayed(change_file(i,verbose=verbose)) for i in realfiles]
-            dask.compute(dfs)
+            dfs = [dask_change_file(i,verbose=verbose) for i in realfiles]
+            dask.persist(*dfs)
         else:
             for finput in realfiles:
                 change_file(finput,verbose=verbose)
