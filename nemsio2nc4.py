@@ -28,6 +28,8 @@ try:
     from dask.diagnostics import ProgressBar
     ProgressBar().register()
     usedask=True
+except ImportError:
+    usedask=False
 
 def execute_subprocess(cmd, verbose=False):
     '''
