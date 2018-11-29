@@ -23,15 +23,11 @@ import sys
 import subprocess
 from distutils.spawn import find_executable
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-try: 
-    import dask
-    from dask.diagnostics import ProgressBar
-    from dask.distributed import Client, progress
-    ProgressBar().register()
-    
-    usedask=True
-except ImportError:
-    usedask=False
+#try: 
+#    import multiprocessing as mp
+#    parallel=True
+#except ImportError:
+#    usedask=False
 
 def execute_subprocess(cmd, verbose=False):
     '''
@@ -112,12 +108,6 @@ if __name__ == '__main__':
         for finput in files:
             if finput.endswith('.nemsio'):
                 realfiles.append(finput)
-        if usedask:
-            dask_change_file = dask.delayed(change_file)
-            client = Client(threads_per_worker=1, n_workers=nprocs)
-            dfs = [dask_change_file(i,verbose=verbose) for i in realfiles]
-            dask.compute(dfs,nprocs=4)
-        else:
-            for finput in realfiles:
-                change_file(finput,verbose=verbose)
+        for finput in realfiles:
+            change_file(finput,verbose=verbose)
    
