@@ -7,5 +7,5 @@ nemsio2nc4 is a command line utility.  Install it to your local python and then 
 
 
 ```
-nemsio2nc4.py -i "example.*.???"
+nemsio2nc4.py -f "example.*.???"
 ```
