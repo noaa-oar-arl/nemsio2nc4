@@ -24,10 +24,11 @@ import subprocess
 from distutils.spawn import find_executable
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 try: 
-    from multiprocessing.pool import ThreadPool
     import dask
     from dask.diagnostics import ProgressBar
+    from dask.distributed import Client, progress
     ProgressBar().register()
+    
     usedask=True
 except ImportError:
     usedask=False
@@ -112,8 +113,9 @@ if __name__ == '__main__':
             if finput.endswith('.nemsio'):
                 realfiles.append(finput)
         if usedask:
+            client = Client(threads_per_worker=1, n_workers=nprocs)
             dfs = [dask.delayed(change_file(i,verbose=verbose)) for i in realfiles]
-            dask.compute(dfs, pool=ThreadPool(nprocs))
+            dask.compute(dfs)
         else:
             for finput in realfiles:
                 change_file(finput,verbose=verbose)
