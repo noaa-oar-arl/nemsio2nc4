@@ -24,6 +24,7 @@ import subprocess
 from distutils.spawn import find_executable
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 try: 
+    from multiprocessing.pool import ThreadPool
     import dask
     from dask.diagnostics import ProgressBar
     ProgressBar().register()
@@ -90,10 +91,13 @@ if __name__ == '__main__':
 
     parser = ArgumentParser(description='convert nemsio file to netCDF4 file', formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument('-f', '--files', help='input nemsio file name', type=str, required=True)
+    parser.add_argument('-n', '--nprocs', help='Number of Processors', type=int, required=False, default=2)
     parser.add_argument('-v', '--verbose', help='print debugging information', action='store_true', required=False)
     args = parser.parse_args()
+    
     finput = args.files
     verbose = args.verbose
+    nprocs = args.nprocs
     
     files = sorted(glob(finput))
     for i,j in enumerate(files):
@@ -109,7 +113,7 @@ if __name__ == '__main__':
                 realfiles.append(finput)
         if usedask:
             dfs = [dask.delayed(change_file(i,verbose=verbose)) for i in realfiles]
-            dask.compute(dfs)
+            dask.compute(dfs, pool=ThreadPool(nprocs))
         else:
             for finput in realfiles:
                 change_file(finput,verbose=verbose)
