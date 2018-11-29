@@ -23,6 +23,11 @@ import sys
 import subprocess
 from distutils.spawn import find_executable
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+try: 
+    import dask
+    from dask.diagnostics import ProgressBar
+    ProgressBar().register()
+    usedask=True
 
 def execute_subprocess(cmd, verbose=False):
     '''
@@ -96,11 +101,13 @@ if __name__ == '__main__':
         finput = files[0]
         change_file(finput,verbose=verbose)
     else:
-        for i in files:
-            finput = i
+        realfiles = []
+        for finput in files:
             if finput.endswith('.nemsio'):
-                print('Current Input:',finput)
+                realfiles.append(finput)
+        if usedask:
+            dfs = [dask.delayed(change_file(finput,verbose=verbose) for i in realfiles)
+        else:
+            for finput in realfiles:
                 change_file(finput,verbose=verbose)
-            else:   
-                pass
    
