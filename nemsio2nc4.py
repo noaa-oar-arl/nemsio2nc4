@@ -95,7 +95,7 @@ if __name__ == '__main__':
     
     finput = args.files
     verbose = args.verbose
-    nprocs = args.nprocs
+    #nprocs = args.nprocs
     
     files = sorted(glob(finput))
     for i,j in enumerate(files):
