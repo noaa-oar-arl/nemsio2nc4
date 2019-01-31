@@ -71,11 +71,12 @@ def chdir(fname):
 
 def change_file(finput,verbose=False):
     fname = finput.strip('.nemsio') if finput.endswith('.nemsio') else finput
-
+    print(fname)
     fname = chdir(finput)
-    
+    print(fname)
     mkgfsnemsioctl = get_exec_path('mkgfsnemsioctl', verbose=verbose)
     cdo = get_exec_path('cdo', verbose=verbose)
+    print(cdo)
 
     cmd = '%s %s' % (mkgfsnemsioctl, fname)
     execute_subprocess(cmd, verbose=verbose)
@@ -88,7 +89,7 @@ if __name__ == '__main__':
 
     parser = ArgumentParser(description='convert nemsio file to netCDF4 file', formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument('-f', '--files', help='input nemsio file name', type=str, required=True)
-    parser.add_argument('-n', '--nprocs', help='Number of Processors', type=int, required=False, default=2)
+    #parser.add_argument('-n', '--nprocs', help='Number of Processors', type=int, required=False, default=2)
     parser.add_argument('-v', '--verbose', help='print debugging information', action='store_true', required=False)
     args = parser.parse_args()
     
@@ -99,7 +100,7 @@ if __name__ == '__main__':
     files = sorted(glob(finput))
     for i,j in enumerate(files):
         files[i] = os.path.realpath(j)
-
+    print(files)
     if len(files) == 1:
         finput = files[0]
         change_file(finput,verbose=verbose)
